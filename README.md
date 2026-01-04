@@ -22,3 +22,9 @@ Supports fabric mod loader only!
 - to remove from the whitelist, type `/cs whitelist remove <line>`.
 
 The filter does not need to be an exact match, the text only has to contain the filter line.
+
+---
+
+## License
+
+Chat settings is under the [MIT License](LICENSE)
