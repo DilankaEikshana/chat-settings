@@ -25,6 +25,15 @@ The filter does not need to be an exact match, the text only has to contain the 
 
 ---
 
+## Installation
+
+- Requires [FabricAPI](https://modrinth.com/mod/fabric-api)
+- Downloaded releases from the [Releases](https://github.com/DilankaEikshana/chat-settings/releases/) page.
+
+
+
+---
+
 ## License
 
 Chat settings is under the [MIT License](LICENSE)
