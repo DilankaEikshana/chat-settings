@@ -1,11 +1,16 @@
 package com.loren.chatsettings.features;
 
+import com.mojang.authlib.GameProfile;
 import net.fabricmc.fabric.api.client.message.v1.ClientReceiveMessageEvents;
+import net.minecraft.network.chat.ChatType;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.PlayerChatMessage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.*;
 import java.nio.file.*;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -74,13 +79,18 @@ public class Filter {
         if (registered) return;
         registered = true;
 
-        ClientReceiveMessageEvents.ALLOW_GAME.register((text, _) -> {
-            String textString = text.getString();
-            if (containsListSubstring(textString, whitelistList)) {
-                return true;
-            }
-            return !containsListSubstring(textString, blacklistList);
-        });
+        ClientReceiveMessageEvents.ALLOW_GAME.register(Filter::filterMethod);
+        ClientReceiveMessageEvents.ALLOW_CHAT.register(Filter::filterMethod);
+    }
+    private static boolean filterMethod (Component text, boolean _b) {
+        String textString = text.getString();
+        if (containsListSubstring(textString, whitelistList)) {
+            return true;
+        }
+        return !containsListSubstring(textString, blacklistList);
+    }
+    private static boolean filterMethod (Component message, PlayerChatMessage playerChatMessage, GameProfile sender, ChatType.Bound boundChatType, Instant timeStamp) {
+        return filterMethod(message, true);
     }
 
     public static Result addFilter(ListType type, String line) {
