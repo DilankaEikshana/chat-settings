@@ -1,4 +1,4 @@
-package com.loren.chatsettings.Filter;
+package com.loren.chatsettings.features;
 
 import net.fabricmc.fabric.api.client.message.v1.ClientReceiveMessageEvents;
 import org.apache.logging.log4j.LogManager;

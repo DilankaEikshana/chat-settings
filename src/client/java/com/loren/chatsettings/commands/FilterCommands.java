@@ -1,6 +1,6 @@
 package com.loren.chatsettings.commands;
 
-import com.loren.chatsettings.Filter.Filter;
+import com.loren.chatsettings.features.Filter;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.builder.RequiredArgumentBuilder;

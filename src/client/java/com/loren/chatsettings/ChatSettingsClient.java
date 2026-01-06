@@ -1,6 +1,6 @@
 package com.loren.chatsettings;
 
-import com.loren.chatsettings.Filter.Filter;
+import com.loren.chatsettings.features.Filter;
 import com.loren.chatsettings.commands.CSCommands;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import net.fabricmc.api.ClientModInitializer;
