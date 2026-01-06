@@ -31,7 +31,8 @@ public class Filter {
 
     private static boolean registered = false; // to check if it's registered only once
 
-    private Filter() {}
+    private Filter() {
+    }
 
     public static void init() {
         try {
@@ -82,14 +83,16 @@ public class Filter {
         ClientReceiveMessageEvents.ALLOW_GAME.register(Filter::filterMethod);
         ClientReceiveMessageEvents.ALLOW_CHAT.register(Filter::filterMethod);
     }
-    private static boolean filterMethod (Component text, boolean _b) {
+
+    private static boolean filterMethod(Component text, boolean _b) {
         String textString = text.getString();
         if (containsListSubstring(textString, whitelistList)) {
             return true;
         }
         return !containsListSubstring(textString, blacklistList);
     }
-    private static boolean filterMethod (Component message, PlayerChatMessage playerChatMessage, GameProfile sender, ChatType.Bound boundChatType, Instant timeStamp) {
+
+    private static boolean filterMethod(Component message, PlayerChatMessage playerChatMessage, GameProfile sender, ChatType.Bound boundChatType, Instant timeStamp) {
         return filterMethod(message, true);
     }
 
@@ -100,9 +103,9 @@ public class Filter {
 
         // check if there's a newline at the end, if not, add 1.
         boolean addNewLine = false;
-        try(RandomAccessFile raf = new RandomAccessFile(type.file, "r")) {
+        try (RandomAccessFile raf = new RandomAccessFile(type.file, "r")) {
             if (raf.length() > 0) {
-                raf.seek(raf.length() -1); // point to the last character
+                raf.seek(raf.length() - 1); // point to the last character
                 if (raf.readByte() != '\n') {
                     addNewLine = true;
                 }
