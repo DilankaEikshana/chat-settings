@@ -7,6 +7,7 @@ import org.apache.logging.log4j.Logger;
 import java.io.*;
 import java.nio.file.*;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
@@ -20,8 +21,8 @@ public class Filter {
     public static final String FILTER_DIR = MOD_CONFIG_DIR + "/filter/";
     public static final Logger LOGGER = LogManager.getLogger(MOD_ID);
 
-    private static List<Pattern> blacklistList = new ArrayList<>();
-    private static List<Pattern> whitelistList = new ArrayList<>();
+    private static final List<Pattern> blacklistList = new ArrayList<>();
+    private static final List<Pattern> whitelistList = new ArrayList<>();
 
     private static boolean registered = false; // to check if it's registered only once
 
@@ -65,8 +66,8 @@ public class Filter {
             LOGGER.warn(e::getMessage);
         }
 
-        LOGGER.info(() -> "Blacklisted lines: \n" + blacklistList.toString());
-        LOGGER.info(() -> "Whitelisted lines: \n" + whitelistList.toString());
+        LOGGER.info(() -> "Blacklisted lines: \n" + blacklistList);
+        LOGGER.info(() -> "Whitelisted lines: \n" + whitelistList);
     }
 
     public static void registerChatFilter() {
@@ -82,7 +83,6 @@ public class Filter {
         });
     }
 
-    // 1 - invalid line, -1 - exception, 0 - successful
     public static Result addFilter(ListType type, String line) {
         if (line == null || line.trim().isEmpty()) return Result.INVALID_LINE;
 
@@ -114,7 +114,6 @@ public class Filter {
         return Result.SUCCESS;
     }
 
-    // -2 - invalid line, -1 - exception, 0 - successful, 1 - doesnt exist
     public static Result removeFilter(ListType type, String lineToRemove) {
         if (lineToRemove == null || lineToRemove.trim().isEmpty()) return Result.INVALID_LINE;
 
@@ -151,6 +150,10 @@ public class Filter {
             return Result.IO_EXCEPTION;
         }
         return Result.SUCCESS;
+    }
+
+    public static List<Pattern> getList(ListType type) {
+        return Collections.unmodifiableList(type.list);
     }
 
     private static boolean containsListSubstring(String msg, List<Pattern> list) {

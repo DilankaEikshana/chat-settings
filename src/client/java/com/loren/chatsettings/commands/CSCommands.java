@@ -11,7 +11,7 @@ public class CSCommands {
         ClientCommandRegistrationCallback.EVENT.register((dispatcher, registryAccess) ->
                 dispatcher.register(LiteralArgumentBuilder.<FabricClientCommandSource>literal("cs")
                         .executes(context -> {
-                                    context.getSource().sendFeedback(Component.literal("/cs filter"));
+                            context.getSource().sendFeedback(Component.literal("/cs <blacklist/whitelist> <string/regex>"));
                                     return 1;
                                 }
                         )
