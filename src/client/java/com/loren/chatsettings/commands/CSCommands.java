@@ -1,6 +1,6 @@
 package com.loren.chatsettings.commands;
 
-import com.loren.chatsettings.Filter.Filter;
+import com.loren.chatsettings.features.Filter;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
@@ -11,7 +11,7 @@ public class CSCommands {
         ClientCommandRegistrationCallback.EVENT.register((dispatcher, registryAccess) ->
                 dispatcher.register(LiteralArgumentBuilder.<FabricClientCommandSource>literal("cs")
                         .executes(context -> {
-                                    context.getSource().sendFeedback(Component.literal("/cs filter"));
+                            context.getSource().sendFeedback(Component.literal("/cs <blacklist/whitelist> <string/regex>"));
                                     return 1;
                                 }
                         )
