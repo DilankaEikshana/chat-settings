@@ -1,0 +1,5 @@
+{
+  "chatsettings.filter.add" : "add filter to blacklist/whitelist",
+  "chatsettings.filter.remove" : "remove filter from blacklist/whitelist",
+  "chatsettings.filter.list" : "view the list of filters in blacklist/whitelist"
+}

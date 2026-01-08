@@ -169,6 +169,19 @@ public class Filter {
         return Collections.unmodifiableList(type.list);
     }
 
+    public static String getListAsString(ListType listType) {
+        List<Pattern> list = Filter.getList(listType);
+        if (list.isEmpty()) {
+            return "";
+        }
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < list.size(); i++) {
+            sb.append(list.get(i));
+            if (i != list.size() - 1) sb.append('\n');
+        }
+        return sb.toString();
+    }
+
     private static boolean containsListSubstring(String msg, List<Pattern> list) {
         for (Pattern line : list) {
             if (line.matcher(msg).find()) {
@@ -197,17 +210,15 @@ public class Filter {
     }
 
     public enum ListType {
-        BLACKLIST(FILTER_DIR + "/blacklist.txt", blacklistList, "blacklist"),
-        WHITELIST(FILTER_DIR + "/whitelist.txt", whitelistList, "whitelist");
+        BLACKLIST(FILTER_DIR + "/blacklist.txt", blacklistList),
+        WHITELIST(FILTER_DIR + "/whitelist.txt", whitelistList);
 
         private final String file;
         private final List<Pattern> list;
-        public final String commandName;
 
-        ListType(String file, List<Pattern> list, String commandName) {
+        ListType(String file, List<Pattern> list) {
             this.file = file;
             this.list = list;
-            this.commandName = commandName;
         }
     }
 

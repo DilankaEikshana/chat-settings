@@ -1,20 +1,25 @@
 package com.loren.chatsettings;
 
+import com.loren.chatsettings.constants.Constants;
 import com.loren.chatsettings.features.Filter;
 import com.loren.chatsettings.commands.CSCommands;
 import net.fabricmc.api.ClientModInitializer;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.ClickEvent;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.HoverEvent;
 
 import java.io.File;
 
-import static com.loren.chatsettings.ChatSettings.MOD_ID;
 
 public class ChatSettingsClient implements ClientModInitializer {
-    public static final Logger LOGGER = LogManager.getLogger(MOD_ID);
 
+    public static final String NAMESPACE = "cs";
     public static final String MOD_CONFIG_DIR = "config/chat_settings/";
+
+    private boolean joinMessageShown = false;
 
     @Override
     public void onInitializeClient() {
@@ -24,5 +29,28 @@ public class ChatSettingsClient implements ClientModInitializer {
 
         CSCommands.init();
         Filter.init();
+
+        displayJoinMessage();
+    }
+
+    private void displayJoinMessage() {
+        ClientPlayConnectionEvents.JOIN.register((_, _, client) -> {
+            if (!joinMessageShown && client.player != null) {
+                client.player.displayClientMessage(Constants.PREFIX.get()
+                        .append(" ")
+                        .append(Component.literal("[View blacklist]").withStyle(style -> style
+                                .withClickEvent(new ClickEvent.RunCommand("/" + NAMESPACE + " blacklist list"))
+                                .withHoverEvent(new HoverEvent.ShowText(Component.literal(Filter.getListAsString(Filter.ListType.BLACKLIST))))
+                                .withColor(ChatFormatting.GRAY))
+                        )
+                        .append(" ")
+                        .append(Component.literal("[View whitelist]").withStyle(style -> style
+                                .withClickEvent(new ClickEvent.RunCommand("/" + NAMESPACE + " whitelist list"))
+                                .withHoverEvent(new HoverEvent.ShowText(Component.literal(Filter.getListAsString(Filter.ListType.WHITELIST))))
+                                .withColor(ChatFormatting.GRAY))
+                        ), false);
+                joinMessageShown = true;
+            }
+        });
     }
 }
