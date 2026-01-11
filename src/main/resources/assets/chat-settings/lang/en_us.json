@@ -1,5 +1,8 @@
 {
-  "chatsettings.filter.add" : "add filter to blacklist/whitelist",
-  "chatsettings.filter.remove" : "remove filter from blacklist/whitelist",
-  "chatsettings.filter.list" : "view the list of filters in blacklist/whitelist"
+  "chat-settings.filter.add" : "add filter to blacklist/whitelist",
+  "chat-settings.filter.remove" : "remove filter from blacklist/whitelist",
+  "chat-settings.filter.list" : "view the list of filters in blacklist/whitelist",
+
+  "key.category.chat-settings.main" : "Chat Settings",
+  "key.chat-settings.filter" : "Edit filters"
 }

@@ -31,6 +31,8 @@ public class ChatSettingsClient implements ClientModInitializer {
         Filter.init();
 
         displayJoinMessage();
+
+        KeyBinds.register();
     }
 
     private void displayJoinMessage() {

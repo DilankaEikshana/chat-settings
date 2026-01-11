@@ -26,9 +26,9 @@ public class CSCommands {
     private static void displayAllCommands(CommandDispatcher<FabricClientCommandSource> dispatcher, CommandBuildContext commandBuildContext) {
         dispatcher.register(literal(ChatSettingsClient.NAMESPACE).executes(context -> {
             context.getSource().sendFeedback(Constants.PREFIX.get().append(Component.literal(" Commands\n").withStyle(ChatFormatting.GRAY))
-                    .append(createCommandDescription("/cs blacklist/whitelist add <line>", Component.translatable("chatsettings.filter.add")))
-                    .append(createCommandDescription("/cs blacklist/whitelist remove <line>", Component.translatable("chatsettings.filter.remove")))
-                    .append(createCommandDescription("/cs blacklist/whitelist list", Component.translatable("chatsettings.filter.list")))
+                    .append(createCommandDescription("/cs blacklist/whitelist add <line>", Component.translatable("chat-settings.filter.add")))
+                    .append(createCommandDescription("/cs blacklist/whitelist remove <line>", Component.translatable("chat-settings.filter.remove")))
+                    .append(createCommandDescription("/cs blacklist/whitelist list", Component.translatable("chat-settings.filter.list")))
             );
             return 1;
         }));
