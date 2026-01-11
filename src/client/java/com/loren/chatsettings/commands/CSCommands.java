@@ -25,19 +25,22 @@ public class CSCommands {
 
     private static void displayAllCommands(CommandDispatcher<FabricClientCommandSource> dispatcher, CommandBuildContext commandBuildContext) {
         dispatcher.register(literal(ChatSettingsClient.NAMESPACE).executes(context -> {
-            context.getSource().sendFeedback(Constants.PREFIX.get().append(Component.literal(" Commands\n").withStyle(ChatFormatting.GRAY))
+            context.getSource().sendFeedback(Constants.PREFIX.get().append(Component.literal(" Commands").withStyle(ChatFormatting.GRAY))
+                    .append(createCommandDescription("/cs filter", Component.translatable("chat-settings.filter")))
                     .append(createCommandDescription("/cs blacklist/whitelist add <line>", Component.translatable("chat-settings.filter.add")))
                     .append(createCommandDescription("/cs blacklist/whitelist remove <line>", Component.translatable("chat-settings.filter.remove")))
                     .append(createCommandDescription("/cs blacklist/whitelist list", Component.translatable("chat-settings.filter.list")))
+
             );
             return 1;
         }));
     }
 
     private static MutableComponent createCommandDescription(String command, MutableComponent description) {
-        return Component.literal(command)
+        return Component.literal("\n")
+                .append(command)
                 .append(Component.literal(" -> ").withStyle(ChatFormatting.GRAY))
-                .append(description.withColor(CSColor.LIGHT_GRAY))
-                .append("\n");
+                .append(description.withColor(CSColor.LIGHT_GRAY));
+
     }
 }
