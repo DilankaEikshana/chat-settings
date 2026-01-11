@@ -1,11 +1,16 @@
 package com.loren.chatsettings.features;
 
+import com.mojang.authlib.GameProfile;
 import net.fabricmc.fabric.api.client.message.v1.ClientReceiveMessageEvents;
+import net.minecraft.network.chat.ChatType;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.PlayerChatMessage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.*;
 import java.nio.file.*;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -26,7 +31,8 @@ public class Filter {
 
     private static boolean registered = false; // to check if it's registered only once
 
-    private Filter() {}
+    private Filter() {
+    }
 
     public static void init() {
         try {
@@ -74,13 +80,20 @@ public class Filter {
         if (registered) return;
         registered = true;
 
-        ClientReceiveMessageEvents.ALLOW_GAME.register((text, _) -> {
-            String textString = text.getString();
-            if (containsListSubstring(textString, whitelistList)) {
-                return true;
-            }
-            return !containsListSubstring(textString, blacklistList);
-        });
+        ClientReceiveMessageEvents.ALLOW_GAME.register(Filter::filterMethod);
+        ClientReceiveMessageEvents.ALLOW_CHAT.register(Filter::filterMethod);
+    }
+
+    private static boolean filterMethod(Component text, boolean _b) {
+        String textString = text.getString();
+        if (containsListSubstring(textString, whitelistList)) {
+            return true;
+        }
+        return !containsListSubstring(textString, blacklistList);
+    }
+
+    private static boolean filterMethod(Component message, PlayerChatMessage playerChatMessage, GameProfile sender, ChatType.Bound boundChatType, Instant timeStamp) {
+        return filterMethod(message, true);
     }
 
     public static Result addFilter(ListType type, String line) {
@@ -90,9 +103,9 @@ public class Filter {
 
         // check if there's a newline at the end, if not, add 1.
         boolean addNewLine = false;
-        try(RandomAccessFile raf = new RandomAccessFile(type.file, "r")) {
+        try (RandomAccessFile raf = new RandomAccessFile(type.file, "r")) {
             if (raf.length() > 0) {
-                raf.seek(raf.length() -1); // point to the last character
+                raf.seek(raf.length() - 1); // point to the last character
                 if (raf.readByte() != '\n') {
                     addNewLine = true;
                 }
@@ -156,6 +169,19 @@ public class Filter {
         return Collections.unmodifiableList(type.list);
     }
 
+    public static String getListAsString(ListType listType) {
+        List<Pattern> list = Filter.getList(listType);
+        if (list.isEmpty()) {
+            return "";
+        }
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < list.size(); i++) {
+            sb.append(list.get(i));
+            if (i != list.size() - 1) sb.append('\n');
+        }
+        return sb.toString();
+    }
+
     private static boolean containsListSubstring(String msg, List<Pattern> list) {
         for (Pattern line : list) {
             if (line.matcher(msg).find()) {
@@ -184,17 +210,15 @@ public class Filter {
     }
 
     public enum ListType {
-        BLACKLIST(FILTER_DIR + "/blacklist.txt", blacklistList, "blacklist"),
-        WHITELIST(FILTER_DIR + "/whitelist.txt", whitelistList, "whitelist");
+        BLACKLIST(FILTER_DIR + "/blacklist.txt", blacklistList),
+        WHITELIST(FILTER_DIR + "/whitelist.txt", whitelistList);
 
         private final String file;
         private final List<Pattern> list;
-        public final String commandName;
 
-        ListType(String file, List<Pattern> list, String commandName) {
+        ListType(String file, List<Pattern> list) {
             this.file = file;
             this.list = list;
-            this.commandName = commandName;
         }
     }
 
