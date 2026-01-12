@@ -181,30 +181,39 @@ public class FilterList extends ContainerObjectSelectionList<FilterList.@NotNull
 
     // for the list of phrases in each blacklist and whitelist
     public static class PhraseEntry extends FilterList.Entry {
-        private final StringWidget phrase;
+        private final StringWidget phraseWidget;
+        private final Button copy;
         private final Button trash;
 
         PhraseEntry(String phrase, Runnable trashFunc) {
-            this.phrase = new StringWidget(Component.literal(phrase).withStyle( style -> style
+
+            this.phraseWidget = new StringWidget(Component.literal(phrase).withStyle(style -> style
                     .withHoverEvent(new HoverEvent.ShowText(Component.literal(phrase)))
 
             ), Minecraft.getInstance().font);
+
+            this.copy = Button.builder(Component.literal("\uD83D\uDCCB"), (_) -> Minecraft.getInstance().keyboardHandler.setClipboard(phrase))
+                    .bounds(0, 0, 20, 20)
+                    .build();
+
             this.trash = Button.builder(Component.literal("\uD83D\uDDD1"), (_) -> trashFunc.run())
                     .bounds(0, 0, 20, 20)
                     .build();
         }
 
-
         @Override
         public @NotNull List<? extends NarratableEntry> narratables() {
-            return List.of(trash, phrase);
+            return List.of(trash, phraseWidget, copy);
         }
 
         @Override
         public void renderContent(@NotNull GuiGraphics graphics, int mouseX, int mouseY, boolean hovered, float a) {
-            phrase.setPosition(getContentX() + 40, getContentY());
-            phrase.setMaxWidth(300);
-            phrase.render(graphics, mouseX, mouseY, a);
+            phraseWidget.setPosition(getContentX() + 40, getContentY());
+            phraseWidget.setMaxWidth(300);
+            phraseWidget.render(graphics, mouseX, mouseY, a);
+
+            copy.setPosition(getContentX() + 300 + 30, getContentY());
+            copy.render(graphics, mouseX, mouseY, a);
 
             trash.setPosition(getContentX() + 300 + 60, getContentY());
             trash.render(graphics, mouseX, mouseY, a);
@@ -212,7 +221,7 @@ public class FilterList extends ContainerObjectSelectionList<FilterList.@NotNull
 
         @Override
         public @NotNull List<? extends GuiEventListener> children() {
-            return List.of(trash, phrase);
+            return List.of(trash, phraseWidget, copy);
         }
     }
 
