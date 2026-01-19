@@ -10,6 +10,12 @@ Supports fabric mod loader only!
 
 - supports **regex** for filtering.
 
+#### GUI
+
+- Open the gui by using the hotkey (`J` by default), or by running the command `/cs filter`.
+
+##### The following features can be done by using the GUI, or by using the command listed.
+
 #### Blacklist
 
 - add a filter to stop text that contains the added phrases from appearing in chat.
