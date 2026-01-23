@@ -1,4 +1,4 @@
-package com.loren.chatsettings.features;
+package com.loren.chatsettings.features.filter;
 
 import net.minecraft.client.Options;
 import net.minecraft.client.gui.screens.Screen;

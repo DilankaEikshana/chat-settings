@@ -1,8 +1,8 @@
 package com.loren.chatsettings.commands;
 
 import com.loren.chatsettings.ChatSettingsClient;
-import com.loren.chatsettings.features.Filter;
-import com.loren.chatsettings.features.FilterScreen;
+import com.loren.chatsettings.features.filter.Filter;
+import com.loren.chatsettings.features.filter.FilterScreen;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.context.CommandContext;

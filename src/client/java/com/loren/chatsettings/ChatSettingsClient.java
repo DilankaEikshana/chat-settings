@@ -1,8 +1,9 @@
 package com.loren.chatsettings;
 
 import com.loren.chatsettings.constants.Constants;
-import com.loren.chatsettings.features.Filter;
+import com.loren.chatsettings.features.filter.Filter;
 import com.loren.chatsettings.commands.CSCommands;
+import com.loren.chatsettings.features.sounds.Sounds;
 import net.fabricmc.api.ClientModInitializer;
 
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
@@ -28,6 +29,9 @@ public class ChatSettingsClient implements ClientModInitializer {
         if (!mainConfigDir.exists()) mainConfigDir.mkdirs();
 
         CSCommands.init();
+        Sounds.init();
+
+
         Filter.init();
 
         displayJoinMessage();

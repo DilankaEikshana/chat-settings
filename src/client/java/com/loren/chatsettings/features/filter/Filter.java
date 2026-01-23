@@ -1,4 +1,4 @@
-package com.loren.chatsettings.features;
+package com.loren.chatsettings.features.filter;
 
 import com.mojang.authlib.GameProfile;
 import net.fabricmc.fabric.api.client.message.v1.ClientReceiveMessageEvents;

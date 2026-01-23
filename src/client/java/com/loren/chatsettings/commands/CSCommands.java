@@ -19,6 +19,7 @@ public class CSCommands {
     public static void init() {
         ClientCommandRegistrationCallback.EVENT.register(CSCommands::displayAllCommands);
         ClientCommandRegistrationCallback.EVENT.register(FilterCommands::registerLists);
+        ClientCommandRegistrationCallback.EVENT.register(SoundCommands::registerSounds);
 
         ClientCommandRegistrationCallback.EVENT.register(CSCommands::displayAllCommands);
     }

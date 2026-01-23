@@ -1,6 +1,6 @@
 package com.loren.chatsettings;
 
-import com.loren.chatsettings.features.FilterScreen;
+import com.loren.chatsettings.features.filter.FilterScreen;
 import com.mojang.blaze3d.platform.InputConstants;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keymapping.v1.KeyMappingHelper;
